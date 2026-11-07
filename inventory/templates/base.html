@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Inventory & Billing{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  {% if user.is_authenticated %}
+  <div class="layout">
+    <nav class="sidebar">
+      <h2>StockBill</h2>
+      <a href="{% url 'dashboard' %}">Dashboard</a>
+      <a href="{% url 'billing' %}">New Bill</a>
+      <a href="{% url 'invoice_list' %}">Invoices</a>
+      <a href="{% url 'product_list' %}">Products</a>
+      <a href="{% url 'category_list' %}">Categories</a>
+      <a href="{% url 'supplier_list' %}">Suppliers</a>
+      <a href="{% url 'purchase_list' %}">Purchases</a>
+      {% if is_admin %}
+        <a href="{% url 'reports' %}">Reports</a>
+        <a href="{% url 'staff_list' %}">Staff</a>
+      {% endif %}
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="link-btn">Logout ({{ user.username }})</button>
+      </form>
+    </nav>
+    <main class="content">
+      {% for m in messages %}<div class="msg {{ m.tags }}">{{ m }}</div>{% endfor %}
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  {% else %}
+    {% block auth %}{% endblock %}
+  {% endif %}
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Sales Report</h1>
+<form method="get" class="inline">
+  <input type="date" name="start" value="{{ start|date:'Y-m-d' }}">
+  <input type="date" name="end" value="{{ end|date:'Y-m-d' }}">
+  <button class="btn" type="submit">Show</button>
+</form>
+<div class="cards">
+  <div class="card"><span>Bills</span><b>{{ invoice_count }}</b></div>
+  <div class="card"><span>Total sales</span><b>₹{{ total_sales }}</b></div>
+</div>
+
+<div class="card"><canvas id="salesChart" height="110"></canvas></div>
+
+<h2>Top 5 products (by quantity sold)</h2>
+<table>
+  <tr><th>Product</th><th>Qty sold</th></tr>
+  {% for p in top_products %}<tr><td>{{ p.product__name }}</td><td>{{ p.qty }}</td></tr>
+  {% empty %}<tr><td colspan="2">No sales in this period.</td></tr>{% endfor %}
+</table>
+
+{{ chart_labels|json_script:"chart-labels" }}
+{{ chart_values|json_script:"chart-values" }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+  new Chart(document.getElementById("salesChart"), {
+    type: "bar",
+    data: {
+      labels: JSON.parse(document.getElementById("chart-labels").textContent),
+      datasets: [{label: "Daily sales (₹)",
+                  data: JSON.parse(document.getElementById("chart-values").textContent),
+                  backgroundColor: "#4f46e5"}]
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="invoice card">
+  <h1>Invoice #{{ invoice.pk }}</h1>
+  <p>Date: {{ invoice.date|date:"d M Y, h:i A" }}<br>
+     Customer: {{ invoice.customer|default:"Walk-in" }}
+     {% if invoice.customer.phone %}({{ invoice.customer.phone }}){% endif %}<br>
+     Billed by: {{ invoice.created_by.username }}</p>
+  <table>
+    <tr><th>Product</th><th>Price</th><th>Qty</th><th>Total</th></tr>
+    {% for item in invoice.items.all %}
+    <tr><td>{{ item.product.name }}</td><td>₹{{ item.price }}</td>
+        <td>{{ item.quantity }}</td><td>₹{{ item.line_total }}</td></tr>
+    {% endfor %}
+  </table>
+  <p class="right">Subtotal: ₹{{ invoice.subtotal }}<br>
+     GST ({{ invoice.gst_percent }}%): ₹{{ invoice.gst_amount }}</p>
+  <h2 class="right">Total: ₹{{ invoice.total }}</h2>
+  <button class="btn no-print" onclick="window.print()">Print / Save as PDF</button>
+</div>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block auth %}
+<div class="login-box">
+  <h2>StockBill Login</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn" type="submit">Login</button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Suppliers</h1>
+<form method="post" class="card form">
+  {% csrf_token %}{{ form.as_p }}
+  <button class="btn" type="submit">Add Supplier</button>
+</form>
+<table>
+  <tr><th>Name</th><th>Phone</th><th>Address</th><th></th></tr>
+  {% for s in suppliers %}
+  <tr><td>{{ s.name }}</td><td>{{ s.phone }}</td><td>{{ s.address }}</td>
+    <td>{% if is_admin %}
+      <form method="post" action="{% url 'supplier_delete' s.pk %}" onsubmit="return confirm('Delete this supplier?')">
+        {% csrf_token %}<button class="btn red small">Delete</button></form>{% endif %}</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

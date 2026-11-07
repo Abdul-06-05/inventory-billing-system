@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<h1>New Bill</h1>
+{% csrf_token %}
+<div class="card inline">
+  <input id="cust-name" placeholder="Customer name (optional)">
+  <input id="cust-phone" placeholder="Phone (optional)">
+</div>
+
+<div class="card inline">
+  <select id="product-select">
+    {% for p in products %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}
+  </select>
+  <input id="qty" type="number" min="1" value="1" style="width:80px">
+  <button class="btn" id="add-btn" type="button">Add to bill</button>
+  <span id="stock-hint" class="hint"></span>
+</div>
+
+<table id="cart-table">
+  <thead><tr><th>Product</th><th>Price</th><th>Qty</th><th>Total</th><th></th></tr></thead>
+  <tbody></tbody>
+</table>
+
+<div class="card totals">
+  <p>Subtotal: ₹<b id="subtotal">0.00</b></p>
+  <p>GST % <input id="gst" type="number" min="0" max="100" value="18" style="width:70px"></p>
+  <p>GST amount: ₹<b id="gst-amount">0.00</b></p>
+  <h2>Grand total: ₹<span id="grand">0.00</span></h2>
+  <button class="btn" id="save-btn" type="button">Save Bill</button>
+  <p id="error" class="error"></p>
+</div>
+
+{{ products|json_script:"products-data" }}
+<script src="{% static 'js/billing.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Categories</h1>
+<form method="post" class="card inline">
+  {% csrf_token %}{{ form.as_p }}
+  <button class="btn" type="submit">Add</button>
+</form>
+<table>
+  <tr><th>Name</th><th></th></tr>
+  {% for c in categories %}
+  <tr><td>{{ c.name }}</td>
+    <td>{% if is_admin %}
+      <form method="post" action="{% url 'category_delete' c.pk %}" onsubmit="return confirm('Delete this category?')">
+        {% csrf_token %}<button class="btn red small">Delete</button></form>{% endif %}</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

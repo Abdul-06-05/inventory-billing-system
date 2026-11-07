@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Products <a class="btn" href="{% url 'product_create' %}">+ Add</a></h1>
+<form method="get" class="inline">
+  <input name="q" value="{{ q }}" placeholder="Search product or category">
+  <select name="category">
+    <option value="">All categories</option>
+    {% for c in categories %}
+      <option value="{{ c.pk }}" {% if selected_category == c.pk|stringformat:"s" %}selected{% endif %}>{{ c.name }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn" type="submit">Filter</button>
+</form>
+<table>
+  <tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr>
+  {% for p in products %}
+  <tr><td>{{ p.name }}</td><td>{{ p.category }}</td><td>₹{{ p.price }}</td>
+    <td class="{% if p.is_low_stock %}low{% endif %}">{{ p.stock }}</td>
+    <td class="actions">
+      <a class="btn small" href="{% url 'product_edit' p.pk %}">Edit</a>
+      {% if is_admin %}
+      <form method="post" action="{% url 'product_delete' p.pk %}" onsubmit="return confirm('Delete this product?')">
+        {% csrf_token %}<button class="btn red small">Delete</button></form>{% endif %}
+    </td></tr>
+  {% empty %}<tr><td colspan="5">No products found.</td></tr>{% endfor %}
+</table>
+{% endblock %}

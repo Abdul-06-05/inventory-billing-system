@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Invoices</h1>
+<table>
+  <tr><th>#</th><th>Customer</th><th>Total</th><th>By</th><th>Date</th></tr>
+  {% for i in invoices %}
+  <tr><td><a href="{% url 'invoice_detail' i.pk %}">#{{ i.pk }}</a></td>
+      <td>{{ i.customer|default:"Walk-in" }}</td><td>₹{{ i.total }}</td>
+      <td>{{ i.created_by.username }}</td><td>{{ i.date|date:"d M Y, h:i A" }}</td></tr>
+  {% empty %}<tr><td colspan="5">No invoices yet.</td></tr>{% endfor %}
+</table>
+{% endblock %}
