@@ -56,3 +56,17 @@ Demo logins (from `seed`): admin / admin123  and  staff / staff123
 - Developed an Inventory & Billing System using Django, SQL, HTML, CSS and JavaScript with role-based access for admin and staff.
 - Implemented automated stock updates, GST invoice generation and low-stock alerts using atomic database transactions.
 - Designed a normalized relational schema and built sales reports with SQL aggregations and Chart.js visualizations.
+
+## Screenshots
+
+### Dashboard
+![Dashboard](screenshots/dashboard.png)
+
+### New Bill
+![Billing](screenshots/billing.png)
+
+### Invoice
+![Invoice](screenshots/invoice.png)
+
+### Sales Report
+![Reports](screenshots/reports.png)

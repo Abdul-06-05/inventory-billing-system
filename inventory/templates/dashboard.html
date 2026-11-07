@@ -4,7 +4,7 @@
 <div class="cards">
   <div class="card"><span>Products</span><b>{{ product_count }}</b></div>
   <div class="card"><span>Bills today</span><b>{{ invoices_today }}</b></div>
-  <div class="card"><span>Sales today</span><b>₹{{ sales_today }}</b></div>
+  <div class="card"><span>Sales today</span><b>₹{{ sales_today|floatformat:2 }}</b></div>
   <div class="card warn"><span>Low stock items</span><b>{{ low_stock.count }}</b></div>
 </div>
 

@@ -8,10 +8,10 @@
 </form>
 <div class="cards">
   <div class="card"><span>Bills</span><b>{{ invoice_count }}</b></div>
-  <div class="card"><span>Total sales</span><b>₹{{ total_sales }}</b></div>
+  <div class="card"><span>Total sales</span><b>₹{{ total_sales|floatformat:2 }}</b></div>
 </div>
 
-<div class="card"><canvas id="salesChart" height="110"></canvas></div>
+<div class="card" style="height:340px"><canvas id="salesChart"></canvas></div>
 
 <h2>Top 5 products (by quantity sold)</h2>
 <table>
@@ -30,8 +30,10 @@
       labels: JSON.parse(document.getElementById("chart-labels").textContent),
       datasets: [{label: "Daily sales (₹)",
                   data: JSON.parse(document.getElementById("chart-values").textContent),
-                  backgroundColor: "#4f46e5"}]
-    }
+                  backgroundColor: "#4f46e5",
+                  maxBarThickness: 60}]
+    },
+    options: {responsive: true, maintainAspectRatio: false}
   });
 </script>
 {% endblock %}
